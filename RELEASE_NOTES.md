@@ -4,7 +4,7 @@ One explicitly invoked command checks offline exposure, creates a social-ready
 card, and prints a suggested caption:
 
 ```sh
-npx -y agent-blast-radius@0.2.0
+npx -y @kloudle/agent-blast-radius@0.2.0
 ```
 
 ## Included
