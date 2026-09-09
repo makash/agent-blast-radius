@@ -1,10 +1,15 @@
-# Agent Blast Radius 0.2.0
+# Agent Blast Radius 0.2.1
+
+Patch release: generated captions now recommend the correct scoped command,
+`npx -y @kloudle/agent-blast-radius@0.2.1`. Release verification now checks that
+both saved and printed captions match the installed package name and version.
+Existing v0.2.0 release files are unchanged.
 
 One explicitly invoked command checks offline exposure, creates a social-ready
 card, and prints a suggested caption:
 
 ```sh
-npx -y @kloudle/agent-blast-radius@0.2.0
+npx -y @kloudle/agent-blast-radius@0.2.1
 ```
 
 ## Included

@@ -6,7 +6,7 @@ generate a social-ready card, and get helpful text to copy—all on your machine
 ## One command
 
 ```sh
-npx -y @kloudle/agent-blast-radius@0.2.0
+npx -y @kloudle/agent-blast-radius@0.2.1
 ```
 
 Requires Node.js 22+ on macOS or Linux, ARM64 or AMD64. Running this command
@@ -28,13 +28,13 @@ the original sanitized username.
 
 ```sh
 # Leave your username off the card
-npx -y @kloudle/agent-blast-radius@0.2.0 --anonymous
+npx -y @kloudle/agent-blast-radius@0.2.1 --anonymous
 
 # Print the check without creating the default card or share-text files
-npx -y @kloudle/agent-blast-radius@0.2.0 --no-card
+npx -y @kloudle/agent-blast-radius@0.2.1 --no-card
 
 # See all options
-npx -y @kloudle/agent-blast-radius@0.2.0 --help
+npx -y @kloudle/agent-blast-radius@0.2.1 --help
 ```
 
 Existing output files are not overwritten. PNG and text are created as separate
