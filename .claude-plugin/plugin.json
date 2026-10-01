@@ -1,0 +1,11 @@
+{
+  "name": "agent-blast-radius",
+  "displayName": "Agent Blast Radius",
+  "version": "0.3.0",
+  "description": "See what an agent running as you can reach: offline credential exposure scan, shareable card, and optional pay-per-check live verification with your own Algorand wallet.",
+  "author": { "name": "Kloudle", "url": "https://kloudle.com" },
+  "homepage": "https://abr.kloudle.dev",
+  "repository": "https://github.com/makash/agent-blast-radius",
+  "license": "LicenseRef-Agent-Blast-Radius-Proprietary",
+  "keywords": ["security", "credentials", "secrets", "mcp", "agents", "x402"]
+}

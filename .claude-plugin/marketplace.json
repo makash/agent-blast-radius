@@ -1,0 +1,12 @@
+{
+  "name": "kloudle",
+  "owner": { "name": "Kloudle", "url": "https://kloudle.com" },
+  "metadata": { "description": "Kloudle security tools for coding agents" },
+  "plugins": [
+    {
+      "name": "agent-blast-radius",
+      "source": "./",
+      "description": "Offline credential exposure scan for coding agents, shareable card, and optional paid live verification."
+    }
+  ]
+}

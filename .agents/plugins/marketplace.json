@@ -1,0 +1,12 @@
+{
+  "name": "kloudle",
+  "interface": { "displayName": "Kloudle" },
+  "plugins": [
+    {
+      "name": "agent-blast-radius",
+      "source": { "source": "local", "path": "./" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Developer Tools"
+    }
+  ]
+}
