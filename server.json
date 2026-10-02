@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.makash/agent-blast-radius",
+  "title": "Agent Blast Radius",
+  "description": "See what an AI agent running as you can reach: offline credential exposure scan, share card, and optional paid live verification (x402, your own Algorand wallet).",
+  "websiteUrl": "https://abr.kloudle.dev",
+  "repository": { "url": "https://github.com/makash/agent-blast-radius", "source": "github" },
+  "version": "0.3.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@kloudle/agent-blast-radius",
+      "version": "0.3.0",
+      "transport": { "type": "stdio" },
+      "packageArguments": [{ "type": "positional", "value": "mcp" }]
+    }
+  ]
+}

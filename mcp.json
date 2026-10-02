@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "blast": {
+      "command": "npx",
+      "args": ["-y", "@kloudle/agent-blast-radius@0.3.0", "mcp"]
+    }
+  }
+}

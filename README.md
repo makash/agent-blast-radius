@@ -1,89 +1,77 @@
 # Agent Blast Radius
 
-**What could an agent running as you reach?** Check local credential exposure,
-generate a social-ready card, and get helpful text to copy—all on your machine.
-
-## One command
-
-```sh
-npx -y @kloudle/agent-blast-radius@0.2.1
-```
-
-Requires Node.js 22+ on macOS or Linux, ARM64 or AMD64. Running this command
-downloads and verifies the platform binary, then performs an **offline** check.
-Installing the package by itself does not run install hooks, download a binary,
-or scan.
-
-By default, the check creates a **1080 × 1350 PNG** card and share text in the
-current directory. PNG generation is built in: no image converter is needed.
-The card is titled **“<username>'s agent blast radius”** using your system username.
-Review the image and suggested text before posting to Instagram, LinkedIn, or X.
-
-Account lookup uses the system account rather than inherited `USER` or `LOGNAME`.
-If lookup fails or exceeds 250 ms, output is anonymous. On Linux, the account must
-appear in a bounded `/etc/passwd` lookup. Unsupported font characters become
-spaced `U+XXXX` labels in both PNG and SVG cards. The displayed owner is limited
-to 60 Unicode characters including `...` when truncated; sharing text retains
-the original sanitized username.
+**What could an agent running as you reach?** `blast` scans the places a coding agent
+running as you can read — cloud profiles, dotfiles, project `.env` files, CI configs,
+MCP servers — and tells you what is exposed, scores it, and draws a card you can share.
+Offline, read-only, never prints a secret value. Optionally, `blast verify` checks which
+of those credentials are actually **live**, paid per check with your own wallet.
 
 ```sh
-# Leave your username off the card
-npx -y @kloudle/agent-blast-radius@0.2.1 --anonymous
-
-# Print the check without creating the default card or share-text files
-npx -y @kloudle/agent-blast-radius@0.2.1 --no-card
-
-# See all options
-npx -y @kloudle/agent-blast-radius@0.2.1 --help
+npx -y @kloudle/agent-blast-radius@0.3.0          # scan + share card (free, offline)
+npx -y @kloudle/agent-blast-radius@0.3.0 verify   # which keys work? (paid, optional)
 ```
 
-Existing output files are not overwritten. PNG and text are created as separate
-complete files with owner-only permissions. If text creation fails, such as when
-its destination exists, the command reports failure and a completed PNG may
-remain; existing text is preserved. The pair is not an all-or-nothing transaction.
+More at **[abr.kloudle.dev](https://abr.kloudle.dev)**.
 
-You can also download a platform binary
-and `SHA256SUMS` from [Releases](https://github.com/makash/agent-blast-radius/releases)
-without npm. Verify its checksum against the release, make it executable, and run
-it from a directory where you want the generated files saved.
+## Install it where your agent runs
 
-This initial release is unsigned and is not notarized by Apple. Your operating
-system may show a security warning or block execution. Checksums verify integrity
-against the published release, not an independent signing identity.
+| Where | How |
+|---|---|
+| Any terminal | `npx -y @kloudle/agent-blast-radius@0.3.0` · `brew install makash/tap/blast` · `curl -fsSL https://abr.kloudle.dev/install.sh \| sh` |
+| Claude Code | `/plugin marketplace add makash/agent-blast-radius` then `/plugin install agent-blast-radius@kloudle` |
+| Codex (CLI and app) | `codex plugin marketplace add makash/agent-blast-radius` then `codex plugin add agent-blast-radius@kloudle` |
+| Claude Desktop | Download [`agent-blast-radius-0.3.0.mcpb`](https://github.com/makash/agent-blast-radius/releases/download/v0.3.0/agent-blast-radius-0.3.0.mcpb) and open it |
+| Cursor | [Add to Cursor](https://abr.kloudle.dev/install/cursor) |
+| VS Code | [Install in VS Code](https://abr.kloudle.dev/install/vscode) |
+| Devin Desktop (Windsurf), Cline, Zed, any MCP client | `{"mcpServers":{"blast":{"command":"npx","args":["-y","@kloudle/agent-blast-radius@0.3.0","mcp"]}}}` |
+| Agent Skills | `npx skills add makash/agent-blast-radius` |
+| Rules files | [Cursor](rules/cursor/blast.mdc) · [Devin Desktop / Windsurf](rules/devin/blast.md) · [Cline](rules/cline/blast.md) |
 
-## What the result means
+Release binaries and `SHA256SUMS` are on [Releases](https://github.com/makash/agent-blast-radius/releases):
+macOS and Linux, ARM64 and AMD64. They are not code-signed or notarized; verify the
+checksum. The npm launcher and `install.sh` verify it for you. Node.js 22+ for `npx`.
 
-The check reports local credential exposure and heuristic reachability; it does
-**not** prove that a token works, that an account is compromised, or that a user
-has administrator access. Results can be incomplete. Use only on systems and files
-you own or are authorized to assess.
+## The scan
 
-The scan does not contact credential providers, execute MCP server configurations,
-upload findings, or send telemetry. The installer does contact npm/GitHub to obtain
-the executable; those services can see the request and your IP, but no discovered
-credentials are sent to them. The launcher checks its pinned SHA-256 on download
-and on every cached run without downloading the binary again. `npx` itself may
-still contact npm on later invocations; the scanner's checks remain offline.
-These protections do not defend against a compromised publisher account or a
-hostile process already controlling your own user account.
+- Reports credential types, locations, SHA-256 fingerprints, local scope hints and
+  configured MCP reachability. **Never values.**
+- Makes no network calls, executes no MCP servers, uploads nothing, no telemetry.
+- Writes a 1080 × 1350 PNG card and share text by default (`--anonymous` drops your
+  username, `--no-card` skips files). Existing files are never overwritten.
+- Scores are exposure estimates, not proof that a credential works or was compromised.
 
-## Editions
+As an MCP server (`blast mcp`) it offers `blast_radius`, `explain_credential` and
+`blast_card` (read-only, offline) plus the verify tools below.
 
-- **Free, available in this release:** offline checks, PNG cards, and share text.
-- **Pro, planned:** online checks only with explicit opt-in.
-- **Pro Max, planned:** fleet-of-machines workflows.
+## Which ones are live? `blast verify`
 
-A separate hosted Algorand challenge allowance of 10 checks per IP is planned.
-The reset period and additional-check price are not yet set, and billing is not
-enabled. The local offline executable does not enforce an IP quota or charge for
-checks. Pro and Pro Max are not implemented in this release.
+The scan can't tell a dead key from a live one. `blast verify`:
 
-## Downloads-only repository
+1. counts eligible findings (AWS profiles; `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` in
+   the environment) and creates a claim at abr.kloudle.dev with **class counts only**,
+   e.g. `aws-sts-identity:2`;
+2. prints the price — **$0.10 USDC per check on Algorand** — a code, and two ways to pay
+   with your own wallet: your agent's x402 wallet tool (e.g. GoPlausible's
+   `algorand-mcp`), or a browser link where you approve in Pera, Defly or Lute;
+3. once paid, fetches an **Ed25519-signed** manifest, runs the checks on your machine
+   (`aws sts get-caller-identity`, provider model-list probes) with a minimal
+   environment, and reports each finding as live, rejected or error.
 
-This public repository hosts release downloads and user documentation. Scanner
-source is private. The software is proprietary, **not open source**; see
-[LICENSE.txt](LICENSE.txt). Third-party components retain their own licenses; see
-the notices supplied with each release.
+```sh
+blast verify --open            # open the pay page and wait
+blast verify --claim <id>      # collect later (claims survive restarts for 30 days)
+blast verify --list            # unfinished claims on this machine
+```
 
-[Report an issue](https://github.com/makash/agent-blast-radius/issues), but never
-include credentials, private file contents, or unredacted reports in a public issue.
+MCP: `blast_verify_quote` → pay → `blast_collect`. Payments are final.
+Need a wallet? [abr.kloudle.dev/wallet](https://abr.kloudle.dev/wallet).
+
+**Never sent:** credential values, profile names, environment variable names, file
+paths, scan output. See [abr.kloudle.dev/privacy](https://abr.kloudle.dev/privacy).
+
+## License
+
+Proprietary — see [LICENSE.txt](LICENSE.txt). Free to use for checks on machines and
+accounts you own or are authorized to assess. Third-party notices:
+[THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt). Scanner source is private; this
+repository distributes binaries, the npm launcher's metadata, plugins, skills and rules.
