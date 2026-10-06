@@ -1,44 +1,39 @@
-# Agent Blast Radius 0.3.0
+# Agent Blast Radius 0.3.1
 
-Runs everywhere your agent does, and can now tell you which of your credentials are
-**live**, paid per check with your own wallet.
+Clearer results on busy machines, and a list of every place each secret lives, so you
+know what to update when you rotate.
 
 ```sh
-npx -y @kloudle/agent-blast-radius@0.3.0          # scan (free, offline) + card
-npx -y @kloudle/agent-blast-radius@0.3.0 verify   # check which keys work (paid, optional)
+npx -y @kloudle/agent-blast-radius@0.3.1          # scan (free, offline)
+npx -y @kloudle/agent-blast-radius@0.3.1 verify   # check which keys work (paid, optional)
 ```
 
 ## New
 
-- **`blast verify`**: live verification of eligible findings (AWS profiles; OpenAI and
-  Anthropic keys in the environment). blast creates a claim at abr.kloudle.dev that
-  carries only class counts (for example `aws-sts-identity:2`), you or your agent pay
-  $0.10 USDC per check on Algorand with your own wallet (x402), and blast fetches a
-  signed manifest and runs the checks **on your machine**. Credential values, profile
-  names, environment variable names, paths and scan output never leave it.
-  - Pay from an agent's x402 wallet tool (e.g. GoPlausible's algorand-mcp) or in a
-    browser with Pera, Defly or Lute at abr.kloudle.dev/pay.
-  - `--wait` / `--open`, `--claim ID` to collect later (claim state survives restarts),
-    `--list`, `--only`, `--max-checks`, `--json`.
-  - Manifests are Ed25519-signed; blast pins the key, runs only `aws` and `node`
-    verifiers, never a shell, and passes them a minimal environment.
-  - Payments are final.
-- **MCP tools** `blast_verify_quote`, `blast_claim_status`, `blast_collect`. The scan
-  tools stay read-only and offline.
-- **Install anywhere:** Claude Code and Codex plugin marketplace in this repository,
-  MCP registry entry, Cursor and VS Code install links, Agent Skills, Cursor / Devin
-  Desktop (Windsurf) / Cline rules, Homebrew tap, checksum-verifying `install.sh`, and
-  a Claude Desktop extension (`.mcpb`).
+- **Same secret in several places.** The scan groups findings that share the same secret
+  bytes and lists every location, for example one GitHub token in nine `.env` and CI
+  files. It appears in the table, in `--explain`, and as `reuse` in the JSON and MCP
+  output. Rotate once, update everywhere listed.
+- **After `blast verify`:** live keys get "rotate these first", and rejected keys get
+  "delete them from disk".
+- `--anon` works as an alias for `--anonymous`.
 
 ## Fixed
 
-- The npm launcher now runs on stock Debian/Ubuntu, where `$HOME` and `~/.cache` are
-  group-writable for the user's own group (775), and honours `XDG_CACHE_HOME`.
-- `--paid-verify` (which needed a pre-signed payment header the service never
-  accepted) is replaced by `blast verify`.
+- **Certificate bundles no longer flood the report.** Public PEM blocks (certificates,
+  public keys, CSRs) are skipped, as are Python virtualenv and `site-packages` folders.
+  One `certifi/cacert.pem` used to produce 1,000 "generic secret" findings.
+- **Capped scans keep their locations.** Hitting the observation limit used to replace
+  every location, profile and MCP server name with `[redacted-incomplete-inventory]`.
+  Dropped values are now still registered for redaction, so the report stays useful.
+  Generic matches have their own budget so they can't crowd out typed credentials.
+- **Score:** generic matches count for at most 8 in the breadth bonus, so a noisy file of
+  unverifiable strings can't reach 100/100 on volume alone. Typed credentials count
+  fully, as before. See SCORING.md.
+- **Agent-friendly output:** the table shows at most 25 rows per group (`--json` still
+  lists everything). When output isn't a terminal (agents, pipes), blast prints the share
+  text but doesn't write card files into the working directory. Use `--card` for the
+  image.
 
-## Unchanged
-
-The scan is offline and read-only, reports redacted metadata only, and makes the same
-1080 × 1350 card. Binaries are unsigned and not notarized; verify them against
-`SHA256SUMS`. macOS and Linux, ARM64 and AMD64.
+Binaries are built with `CGO_ENABLED=0 -trimpath`. Check them against `SHA256SUMS`; the
+npm launcher verifies its pinned checksum before running.
