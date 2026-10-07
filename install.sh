@@ -4,12 +4,12 @@
 # ~/.local/bin (or $BLAST_INSTALL_DIR). No sudo. macOS and Linux, amd64 and arm64.
 #
 #   curl -fsSL https://abr.kloudle.dev/install.sh | sh
-#   BLAST_VERSION=0.3.0 BLAST_INSTALL_DIR=/usr/local/bin sh install.sh
+#   BLAST_VERSION=0.3.1 BLAST_INSTALL_DIR=/usr/local/bin sh install.sh
 set -eu
 
 main() {
   repo="makash/agent-blast-radius"
-  version="${BLAST_VERSION:-0.3.0}"
+  version="${BLAST_VERSION:-0.3.1}"
   dir="${BLAST_INSTALL_DIR:-$HOME/.local/bin}"
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
   case "$os" in darwin|linux) ;; *) echo "blast: unsupported OS: $os (macOS and Linux only)" >&2; exit 1 ;; esac

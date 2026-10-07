@@ -7,8 +7,8 @@ Offline, read-only, never prints a secret value. Optionally, `blast verify` chec
 of those credentials are actually **live**, paid per check with your own wallet.
 
 ```sh
-npx -y @kloudle/agent-blast-radius@0.3.0          # scan + share card (free, offline)
-npx -y @kloudle/agent-blast-radius@0.3.0 verify   # which keys work? (paid, optional)
+npx -y @kloudle/agent-blast-radius@0.3.1          # scan + share card (free, offline)
+npx -y @kloudle/agent-blast-radius@0.3.1 verify   # which keys work? (paid, optional)
 ```
 
 More at **[abr.kloudle.dev](https://abr.kloudle.dev)** · step-by-step guides for every agent: [abr.kloudle.dev/install](https://abr.kloudle.dev/install) · agent payments: [abr.kloudle.dev/agent-payments](https://abr.kloudle.dev/agent-payments)
@@ -17,13 +17,13 @@ More at **[abr.kloudle.dev](https://abr.kloudle.dev)** · step-by-step guides fo
 
 | Where | How |
 |---|---|
-| Any terminal | `npx -y @kloudle/agent-blast-radius@0.3.0` · `brew install makash/tap/blast` · `curl -fsSL https://abr.kloudle.dev/install.sh \| sh` |
+| Any terminal | `npx -y @kloudle/agent-blast-radius@0.3.1` · `brew install makash/tap/blast` · `curl -fsSL https://abr.kloudle.dev/install.sh \| sh` |
 | Claude Code | `/plugin marketplace add makash/agent-blast-radius` then `/plugin install agent-blast-radius@kloudle` |
 | Codex (CLI and app) | `codex plugin marketplace add makash/agent-blast-radius` then `codex plugin add agent-blast-radius@kloudle` |
-| Claude Desktop | Download [`agent-blast-radius-0.3.0.mcpb`](https://github.com/makash/agent-blast-radius/releases/download/v0.3.0/agent-blast-radius-0.3.0.mcpb) and open it |
+| Claude Desktop | Download [`agent-blast-radius-0.3.1.mcpb`](https://github.com/makash/agent-blast-radius/releases/download/v0.3.1/agent-blast-radius-0.3.1.mcpb) and open it |
 | Cursor | [Add to Cursor](https://abr.kloudle.dev/install/cursor/add) · [guide](https://abr.kloudle.dev/install/cursor) |
 | VS Code | [Install in VS Code](https://abr.kloudle.dev/install/vscode/add) · [guide](https://abr.kloudle.dev/install/vscode) |
-| Devin Desktop (Windsurf), Cline, Zed, any MCP client | `{"mcpServers":{"blast":{"command":"npx","args":["-y","@kloudle/agent-blast-radius@0.3.0","mcp"]}}}` |
+| Devin Desktop (Windsurf), Cline, Zed, any MCP client | `{"mcpServers":{"blast":{"command":"npx","args":["-y","@kloudle/agent-blast-radius@0.3.1","mcp"]}}}` |
 | Agent Skills | `npx skills add makash/agent-blast-radius` |
 | Rules files | [Cursor](rules/cursor/blast.mdc) · [Devin Desktop / Windsurf](rules/devin/blast.md) · [Cline](rules/cline/blast.md) |
 

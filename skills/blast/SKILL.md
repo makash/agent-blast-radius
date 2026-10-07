@@ -8,8 +8,8 @@ description: See what an AI agent running as the user can reach — offline cred
 Tools come from the `blast` MCP server: `blast_radius`, `explain_credential`,
 `blast_card`, `blast_verify_quote`, `blast_claim_status`, `blast_collect`.
 If those tools are not available but you have a shell, use the CLI instead:
-`npx -y @kloudle/agent-blast-radius@0.3.0` (scan) and
-`npx -y @kloudle/agent-blast-radius@0.3.0 verify` (paid verification).
+`npx -y @kloudle/agent-blast-radius@0.3.1` (scan) and
+`npx -y @kloudle/agent-blast-radius@0.3.1 verify` (paid verification).
 Do not install anything else without the user's agreement.
 
 ## Scan (free, offline)

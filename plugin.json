@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agent-blast-radius",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "See what an agent running as you can reach: offline credential exposure scan, shareable card, and optional pay-per-check live verification with your own Algorand wallet.",
   "author": { "name": "Kloudle", "url": "https://kloudle.com" },
   "homepage": "https://abr.kloudle.dev",
